@@ -2,11 +2,11 @@ package model;
 
 enum PetAddress {
     ;
-    private int number;
+    private String number;
     private String city;
     private String street;
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
