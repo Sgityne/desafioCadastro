@@ -1,68 +1,104 @@
 package service;
 
+import java.util.Scanner;
+
 public class PetValidator {
 
     private final String NAO_INFORMADO = "não informado";
 
-    public String validatePetName (String name) {
+    public String validatePetName(Scanner scanner) {
+        System.out.print(">> ");
+        String name = scanner.nextLine();
         if (name == null || name.trim().isEmpty()) {
             return NAO_INFORMADO;
         }
 
-        if (!name.contains(" ")) {
-            throw new IllegalArgumentException("O pet deverá ter nome e sobrenome.");
-        }
+        try {
+            if (!name.contains(" ")) {
+                System.out.println("O pet deverá ter nome e sobrenome.");
+                throw new IllegalArgumentException();
+            }
 
-        if (!name.matches("([A-z ]+)")) {
-            throw new IllegalArgumentException("O pet deverá conter SOMENTE letras.");
-        }
+            if (!name.matches("([A-z ]+)")) {
+                System.out.println("O pet deverá conter SOMENTE letras.");
+                throw new IllegalArgumentException();
+            }
 
-        return name.trim();
+            return name.trim();
+        } catch (IllegalArgumentException e) {
+            return validatePetName(scanner);
+        }
     }
 
-    public String validatePetWeight (String weight) {
+    public String validatePetWeight(Scanner scanner) {
+        System.out.print(">> ");
+        String weight = scanner.nextLine();
         if (weight == null || weight.trim().isEmpty()) {
             return NAO_INFORMADO;
         }
 
-        if (weight.contains(",")){
-            weight = weight.replace(",", ".");
+        try {
+            if (weight.contains(",")) {
+                weight = weight.replace(",", ".");
+            }
+
+            double weightD = Double.parseDouble(weight);
+            if (weightD < 0.5 || weightD > 60) {
+                throw new IllegalArgumentException();
+            }
+
+            return String.valueOf(weightD);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Peso inválido. Digite outro número.");
+            return validatePetWeight(scanner);
         }
-        double weightD = Double.parseDouble(weight);
-        if (weightD < 0.5 || weightD > 60) {
-            throw new IllegalArgumentException("Peso inválido. Digite outro número.");
-        }
-        return String.valueOf(weightD);
     }
 
     /**
      * @param age years followed by months
      * @return {@link model.Pet#age age}
      */
-    public String validatePetAge (String age) {
+    public String validatePetAge(Scanner scanner) {
+        System.out.print(">> ");
+        String age = scanner.nextLine();
         if (age == null || age.trim().isEmpty()) {
             return NAO_INFORMADO;
         }
+        try {
+            if (age.contains(",")) {
+                age = age.replace(",", ".");
+            }
 
-        double ageD = Double.parseDouble(age);
-        if (ageD > 20 || ageD <= 0) {
-            throw new IllegalArgumentException("Idade inválida. Digite outro número.");
+            double ageD = Double.parseDouble(age);
+            if (ageD > 20 || ageD <= 0) {
+                throw new IllegalArgumentException();
+            }
+            return String.valueOf(ageD);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Idade inválida. Digite outro número.");
+            return validatePetAge(scanner);
         }
-        return String.valueOf(ageD);
     }
 
-    public String validatePetBreed (String breed) {
+    public String validatePetBreed(Scanner scanner) {
+        System.out.print(">> ");
+        String breed = scanner.nextLine();
         if (breed == null || breed.trim().isEmpty()) {
             return NAO_INFORMADO;
         }
 
-        if (!breed.matches("([A-z ]+)")) {
-            throw new IllegalArgumentException("Raça inválida.");
+        try {
+            if (!breed.matches("([A-z ]+)")) {
+                throw new IllegalArgumentException();
+            }
+            return breed;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Raça inválida.");
+            return validatePetBreed(scanner);
         }
-        return breed;
     }
 
-    public String validateAddressNumber (String number) {
+    public String validateAddressNumber(String number) {
         if (number == null || number.trim().isEmpty()) {
             return NAO_INFORMADO;
         }
