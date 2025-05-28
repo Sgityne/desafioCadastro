@@ -13,12 +13,20 @@ public class Pet {
         this.name = name;
     }
 
-    public void setSpecie(PetSpecie specie) {
-        this.specie = specie;
+    public void setSpecie(int num) {
+        if (num == 1) {
+            this.specie = PetSpecie.CACHORRO;
+        } else if (num == 2) {
+            this.specie = PetSpecie.GATO;
+        }
     }
 
-    public void setGender(PetGender gender) {
-        this.gender = gender;
+    public void setGender(char input) {
+        if (input == 'F') {
+            this.gender = PetGender.FEMEA;
+        } else if (input == 'M') {
+            this.gender = PetGender.MACHO;
+        }
     }
 
     public void setAddress(PetAddress address) {

@@ -1,7 +1,6 @@
 package model;
 
-enum PetAddress {
-    ;
+public class PetAddress {
     private String number;
     private String city;
     private String street;
