@@ -104,4 +104,35 @@ public class PetValidator {
         }
         return number;
     }
+
+    public static int validatePetSpecie(Scanner scanner) {
+        System.out.print("1 - Cachorro\n2 - Gato\n>> ");
+        try {
+            int num = Integer.parseInt(scanner.nextLine());
+            if (num == 1 || num == 2) {
+                return num;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Espécie inválida");
+            return validatePetSpecie(scanner);
+        }
+    }
+
+    public static char validatePetGender(Scanner scanner) {
+        System.out.print("F - Fêmea\nM - Macho\n>> ");
+        String input = scanner.nextLine().toUpperCase();
+        char gender = input.charAt(0);
+        try {
+            if (gender == 'F' || gender == 'M') {
+                return gender;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Gênero inválido");
+            return validatePetGender(scanner);
+        }
+    }
 }
