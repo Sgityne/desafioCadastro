@@ -46,5 +46,17 @@ public class FormRepository {
         }
     }
 
-
+    public static void readFileLine(int line) {
+        try (FileReader fr = new FileReader(filePath.toFile());
+             BufferedReader br = new BufferedReader(fr)) {
+            String lines;
+            while((lines = br.readLine()) != null) {
+                if (Integer.parseInt(String.valueOf(lines.charAt(0))) == line) {
+                    System.out.println(lines);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
