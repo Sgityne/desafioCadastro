@@ -17,7 +17,7 @@ public class MainMenu {
         int option = numberFiler(scanner);
         while (option != 6) {
             if (option == 1) {
-
+                PetRegister.register();
             } else if (option == 2) {
 
             } else if (option == 3) {
