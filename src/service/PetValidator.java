@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class PetValidator {
 
-    private final String NAO_INFORMADO = "não informado";
+    private static final String NAO_INFORMADO = "não informado";
 
-    public String validatePetName(Scanner scanner) {
+    public static String validatePetName(Scanner scanner) {
         System.out.print(">> ");
         String name = scanner.nextLine();
         if (name == null || name.trim().isEmpty()) {
@@ -30,7 +30,7 @@ public class PetValidator {
         }
     }
 
-    public String validatePetWeight(Scanner scanner) {
+    public static String validatePetWeight(Scanner scanner) {
         System.out.print(">> ");
         String weight = scanner.nextLine();
         if (weight == null || weight.trim().isEmpty()) {
@@ -58,7 +58,7 @@ public class PetValidator {
      * @param age years followed by months
      * @return {@link model.Pet#age age}
      */
-    public String validatePetAge(Scanner scanner) {
+    public static String validatePetAge(Scanner scanner) {
         System.out.print(">> ");
         String age = scanner.nextLine();
         if (age == null || age.trim().isEmpty()) {
@@ -80,7 +80,7 @@ public class PetValidator {
         }
     }
 
-    public String validatePetBreed(Scanner scanner) {
+    public static String validatePetBreed(Scanner scanner) {
         System.out.print(">> ");
         String breed = scanner.nextLine();
         if (breed == null || breed.trim().isEmpty()) {
@@ -98,8 +98,8 @@ public class PetValidator {
         }
     }
 
-    public String validateAddressNumber(String number) {
-        if (number == null || number.trim().isEmpty()) {
+    public static String validateAddressNumber(String number) {
+        if (number == null || number.trim().isEmpty() || number.matches("([^1-9])")) {
             return NAO_INFORMADO;
         }
         return number;
