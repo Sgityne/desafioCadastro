@@ -9,6 +9,34 @@ public class Pet {
     private String weight;
     private String breed;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getSpecie() {
+        return specie.getPetSpecie();
+    }
+
+    public String getGender() {
+        return gender.getPetGender();
+    }
+
+    public PetAddress getAddress() {
+        return address;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
