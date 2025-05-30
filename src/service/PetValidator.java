@@ -47,7 +47,7 @@ public class PetValidator {
                 throw new IllegalArgumentException();
             }
 
-            return String.valueOf(weightD);
+            return String.valueOf(weight);
         } catch (IllegalArgumentException e) {
             System.out.println("Peso inválido. Digite outro número.");
             return validatePetWeight(scanner);
@@ -73,7 +73,7 @@ public class PetValidator {
             if (ageD > 20 || ageD <= 0) {
                 throw new IllegalArgumentException();
             }
-            return String.valueOf(ageD);
+            return String.valueOf(age);
         } catch (IllegalArgumentException e) {
             System.out.println("Idade inválida. Digite outro número.");
             return validatePetAge(scanner);

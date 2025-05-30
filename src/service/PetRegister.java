@@ -3,6 +3,7 @@ package service;
 import model.Pet;
 import model.PetAddress;
 import repository.FormRepository;
+import repository.PetFile;
 
 import java.util.Scanner;
 
@@ -38,6 +39,7 @@ public class PetRegister {
 
         FormRepository.readFileLine(7);
         pet.setBreed(PetValidator.validatePetBreed(scanner));
-        System.out.println(pet);
+
+        PetFile.save(pet);
     }
 }
