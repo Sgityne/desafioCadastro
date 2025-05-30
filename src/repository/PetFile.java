@@ -1,10 +1,9 @@
 package repository;
 
 import model.Pet;
+import model.PetAddress;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,7 +25,7 @@ public class PetFile {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
         String dateTime = LocalDateTime.now().format(formatter);
         Path filePath = Paths.get(folderPath.toString(),
-                dateTime + "-" + pet.getName().replaceAll("\\s","").toUpperCase() + ".txt");
+                dateTime + "-" + pet.getName().replaceAll("\\s", "").toUpperCase() + ".txt");
         if (Files.notExists(filePath)) {
             try {
                 Files.createFile(filePath);
@@ -47,5 +46,39 @@ public class PetFile {
         } catch (IOException e) {
             System.out.println("Erro ao tentar registrar o pet");
         }
+    }
+
+    public static Pet[] listAllPets() throws IOException {
+        if (Files.notExists(folderPath)) {
+            throw new IOException("Diretório não encontrado");
+        }
+        File[] files = folderPath.toFile().listFiles();
+        if (files == null) {
+            throw new IOException("Nenhum pet cadastrado");
+        }
+        Pet[] petList = new Pet[files.length];
+        for (int i = 0; i < files.length; i++) {
+            Pet pet = new Pet();
+            PetAddress petAddress = new PetAddress();
+            try (FileReader fr = new FileReader(files[i]);
+            BufferedReader reader = new BufferedReader(fr)) {
+                pet.setName(reader.readLine().split(" - ")[1]);
+                pet.setSpecie(reader.readLine().split(" - ")[1].toUpperCase());
+                pet.setGender(reader.readLine().split(" - ")[1].replace("ê", "e").toUpperCase());
+                String address = reader.readLine();
+                pet.setAge(reader.readLine().split(" - ")[1].split(" anos")[0]);
+                pet.setWeight(reader.readLine().split(" - ")[1].split("kg")[0]);
+                pet.setBreed(reader.readLine().split(" - ")[1]);
+
+                String[] addresses = address.split(" - ");
+                petAddress.setStreet(addresses[1].split(", ")[0]);
+                petAddress.setNumber(addresses[1].split(", ")[1]);
+                petAddress.setCity(addresses[2]);
+                pet.setAddress(petAddress);
+
+                petList[i] = pet;
+            }
+        }
+        return petList;
     }
 }

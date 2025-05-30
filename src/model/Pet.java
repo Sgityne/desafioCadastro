@@ -49,12 +49,20 @@ public class Pet {
         }
     }
 
+    public void setSpecie(String specie) {
+        this.specie = PetSpecie.valueOf(specie);
+    }
+
     public void setGender(char input) {
         if (input == 'F') {
             this.gender = PetGender.FEMEA;
         } else if (input == 'M') {
             this.gender = PetGender.MACHO;
         }
+    }
+
+    public void setGender(String gender) {
+        this.gender = PetGender.valueOf(gender);
     }
 
     public void setAddress(PetAddress address) {

@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class MainMenu {
     final static String MENUOPTIONS = """
+            
             1 - Cadastrar um novo pet
             2 - Alterar os dados do pet cadastrado
             3 - Deletar um pet cadastrado
@@ -23,7 +24,7 @@ public class MainMenu {
             } else if (option == 3) {
 
             } else if (option == 4) {
-
+                PetSearch.listAllPets();
             } else {
 
             }
