@@ -88,7 +88,7 @@ public class PetValidator {
         }
 
         try {
-            if (!breed.matches("([A-z ]+)")) {
+            if (!breed.matches("([A-z- ]+)")) {
                 throw new IllegalArgumentException();
             }
             return breed;
