@@ -80,4 +80,14 @@ public class Pet {
     public void setBreed(String breed) {
         this.breed = breed;
     }
+
+    public String print() {
+        return (name
+                + " - " + specie.getPetSpecie()
+                + " - " + gender.getPetGender()
+                + " - " + address.getAddress()
+                + " - " + age + " anos"
+                + " - " + weight + "kg"
+                + " - " + breed);
+    }
 }
