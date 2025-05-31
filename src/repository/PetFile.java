@@ -1,7 +1,6 @@
 package repository;
 
 import model.Pet;
-import model.PetAddress;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -9,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PetFile {
     final static Path PETFOLDERPATH = Paths.get("data\\petsCadastrados");
@@ -48,7 +49,7 @@ public class PetFile {
         }
     }
 
-    public static Pet[] listAllPets() throws IOException {
+    public static File[] listAllFiles() throws IOException {
         if (Files.notExists(folderPath)) {
             throw new IOException("Diretório não encontrado");
         }
@@ -56,29 +57,12 @@ public class PetFile {
         if (files == null) {
             throw new IOException("Nenhum pet cadastrado");
         }
-        Pet[] petList = new Pet[files.length];
-        for (int i = 0; i < files.length; i++) {
-            Pet pet = new Pet();
-            PetAddress petAddress = new PetAddress();
-            try (FileReader fr = new FileReader(files[i]);
-            BufferedReader reader = new BufferedReader(fr)) {
-                pet.setName(reader.readLine().split(" - ")[1]);
-                pet.setSpecie(reader.readLine().split(" - ")[1].toUpperCase());
-                pet.setGender(reader.readLine().split(" - ")[1].replace("ê", "e").toUpperCase());
-                String address = reader.readLine();
-                pet.setAge(reader.readLine().split(" - ")[1].split(" anos")[0]);
-                pet.setWeight(reader.readLine().split(" - ")[1].split("kg")[0]);
-                pet.setBreed(reader.readLine().split(" - ")[1]);
+        return files;
+    }
 
-                String[] addresses = address.split(" - ");
-                petAddress.setStreet(addresses[1].split(", ")[0]);
-                petAddress.setNumber(addresses[1].split(", ")[1]);
-                petAddress.setCity(addresses[2]);
-                pet.setAddress(petAddress);
-
-                petList[i] = pet;
-            }
+    public static List<String> readFileLines(File file) throws IOException{
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+            return reader.lines().collect(Collectors.toList());
         }
-        return petList;
     }
 }
