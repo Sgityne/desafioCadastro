@@ -14,11 +14,19 @@ public class Pet {
     }
 
     public String getSpecie() {
-        return specie.getPetSpecie();
+        return specie.petSpecie;
+    }
+
+    public PetSpecie getSpecieType() {
+        return specie;
     }
 
     public String getGender() {
-        return gender.getPetGender();
+        return gender.petGender;
+    }
+
+    public PetGender getGenderType() {
+        return gender;
     }
 
     public PetAddress getAddress() {
@@ -83,8 +91,8 @@ public class Pet {
 
     public String print() {
         return (name
-                + " - " + specie.getPetSpecie()
-                + " - " + gender.getPetGender()
+                + " - " + specie.petSpecie
+                + " - " + gender.petGender
                 + " - " + address.getAddress()
                 + " - " + age + " anos"
                 + " - " + weight + "kg"

@@ -1,6 +1,6 @@
 package model;
 
-enum PetSpecie {
+public enum PetSpecie {
     GATO("Gato"),
     CACHORRO("Cachorro");
 
@@ -8,9 +8,5 @@ enum PetSpecie {
 
     PetSpecie(String petSpecie) {
         this.petSpecie = petSpecie;
-    }
-
-    public String getPetSpecie() {
-        return petSpecie;
     }
 }

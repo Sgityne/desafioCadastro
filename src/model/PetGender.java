@@ -1,6 +1,6 @@
 package model;
 
-enum PetGender {
+public enum PetGender {
     FEMEA("Fêmea"),
     MACHO("Macho");
 
@@ -8,9 +8,5 @@ enum PetGender {
 
     PetGender(String petGender) {
         this.petGender = petGender;
-    }
-
-    public String getPetGender() {
-        return petGender;
     }
 }
