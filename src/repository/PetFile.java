@@ -10,10 +10,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PetFile {
     final static Path PETFOLDERPATH = Paths.get("data\\petsCadastrados");
     static Path folderPath = PETFOLDERPATH.toAbsolutePath();
+    public final static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
 
     public static void save(Pet pet) {
         if (Files.notExists(folderPath)) {
@@ -23,8 +25,7 @@ public class PetFile {
                 System.out.println("Erro ao criar o diretório");
             }
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
-        String dateTime = LocalDateTime.now().format(formatter);
+        String dateTime = LocalDateTime.now().format(FORMATTER);
         Path filePath = Paths.get(folderPath.toString(),
                 dateTime + "-" + pet.getName().replaceAll("\\s", "").toUpperCase() + ".txt");
         if (Files.notExists(filePath)) {
@@ -49,19 +50,24 @@ public class PetFile {
         }
     }
 
-    public static File[] listAllFiles() throws IOException {
+    public static List<Path> listAllFiles() throws IOException {
         if (Files.notExists(folderPath)) {
             throw new IOException("Diretório não encontrado");
         }
-        File[] files = folderPath.toFile().listFiles();
-        if (files == null) {
-            throw new IOException("Nenhum pet cadastrado");
+        try (Stream<Path> paths = Files.list(folderPath)) {
+            List<Path> filePaths = paths
+                    .filter(Files::isRegularFile)
+                    .toList();
+
+            if (filePaths.isEmpty()) {
+                throw new IOException("Nenhum pet cadastrado");
+            }
+            return filePaths;
         }
-        return files;
     }
 
-    public static List<String> readFileLines(File file) throws IOException{
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+    public static List<String> readFileLines(Path path) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
             return reader.lines().collect(Collectors.toList());
         }
     }

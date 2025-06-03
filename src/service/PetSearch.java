@@ -4,8 +4,8 @@ import model.Pet;
 import model.PetAddress;
 import repository.PetFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,10 +13,10 @@ import java.util.Scanner;
 public class PetSearch {
     static List<Pet> getPetFiles(){
         try {
-            File[] files = PetFile.listAllFiles();
+            List<Path> paths = PetFile.listAllFiles();
             List<Pet> pets = new ArrayList<>();
-            for (File file : files) {
-                List<String> lines = PetFile.readFileLines(file);
+            for (Path path : paths) {
+                List<String> lines = PetFile.readFileLines(path);
                 Pet pet = parsePetFromLines(lines);
                 pets.add(pet);
             }
