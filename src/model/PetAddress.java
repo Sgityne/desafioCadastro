@@ -17,6 +17,14 @@ public class PetAddress {
         this.street = street;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
     public String getAddress() {
         return this.street + ", " + this.number + " - " + this.city;
     }
