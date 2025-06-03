@@ -19,8 +19,10 @@ public class Menu {
             3 - Idade
             4 - Peso
             5 - Raça
-            6 - Endereço\n""" +
-            ">> ";
+            6 - Endereço
+            7 - Data específica
+            8 - Intervalo de datas
+            """;
 
     public static void mainMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -56,18 +58,17 @@ public class Menu {
     }
 
     public static int numberFiler(Scanner scanner) {
-        while (true) {
-            if (scanner.hasNextInt()) {
-                int num = scanner.nextInt();
-                if (num > 0 && num <= 6) {
-                    return num;
-                } else {
-                    System.out.println("Número inválido. Digite outro número.");
-                }
+        System.out.print(">> ");
+        try {
+            int num = Integer.parseInt(scanner.nextLine());
+            if (num > 0 && num <= 8) {
+                return num;
             } else {
-                System.out.println("Entrada inválida. Digite apenas números.");
-                scanner.nextLine();
+                throw new IllegalArgumentException();
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Número inválido. Digite outro número.");
+            return numberFiler(scanner);
         }
     }
 }
