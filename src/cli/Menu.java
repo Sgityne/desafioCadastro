@@ -75,8 +75,11 @@ public class Menu {
             if (criteria[1] != 0) {
                 break;
             }
-            System.out.print("Deseja escolher um 2º critérios (Sim ou Não)?\n>> ");
-            String choice = scanner.next().toLowerCase();
+            String choice = " ";
+            while (!(choice.charAt(0) == 'n' || choice.charAt(0) == 's')) {
+                System.out.print("Deseja escolher um 2º critérios (Sim ou Não)?\n>> ");
+                choice = scanner.next().toLowerCase();
+            }
             if (choice.charAt(0) == 'n') {
                 break;
             }
