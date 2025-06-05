@@ -66,6 +66,9 @@ public class PetSearch {
 
     public static void listPetsByCriteria(int petSpecie, int[] criteria) {
         List<Pet> petFilteredList = PetSearchFilter.Filter(petSpecie, criteria);
+        if (petFilteredList.isEmpty()) {
+            System.out.println("Nenhum pet encontrado");
+        }
         printPets(petFilteredList);
     }
 }

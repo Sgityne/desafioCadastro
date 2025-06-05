@@ -14,13 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static util.Constants.FORMATTER;
+import static util.Constants.*;
 
 public class SearchFilters {
     public static List<Pet> filterByName(Scanner scanner, List<Pet> petList) {
         String name = Validators.isNotBlank(scanner).toLowerCase();
         return petList.stream()
                 .filter(pet -> pet.getName().toLowerCase().contains(name))
+                .map(pet -> {
+                    int startIndex = pet.getName().toLowerCase().indexOf(name);
+                    int endIndex = startIndex + name.length();
+                    String targetText = pet.getName().substring(startIndex, endIndex);
+                    String boldText = BOLD_START + targetText + BOLD_END;
+                    pet.setName(pet.getName().replaceAll(targetText, boldText));
+                    return pet;
+                })
                 .toList();
     }
 
@@ -62,6 +70,14 @@ public class SearchFilters {
         String breed = Validators.isNotBlank(scanner).toLowerCase();
         return petList.stream()
                 .filter(pet -> pet.getBreed().toLowerCase().contains(breed))
+                .map(pet -> {
+                    int startIndex = pet.getBreed().toLowerCase().indexOf(breed);
+                    int endIndex = startIndex + breed.length();
+                    String targetText = pet.getBreed().substring(startIndex, endIndex);
+                    String boldText = BOLD_START + targetText + BOLD_END;
+                    pet.setBreed(pet.getBreed().replaceAll(targetText, boldText));
+                    return pet;
+                })
                 .toList();
     }
 
@@ -70,6 +86,26 @@ public class SearchFilters {
         return petList.stream()
                 .filter(pet -> pet.getAddress().getStreet().toLowerCase().contains(address) ||
                         pet.getAddress().getCity().toLowerCase().contains(address))
+                .map(pet -> {
+                    String petStreet = pet.getAddress().getStreet();
+                    String petCity = pet.getAddress().getCity();
+                    int startIndex;
+                    int endIndex;
+                    if (petStreet.toLowerCase().contains(address)) {
+                        startIndex = petStreet.toLowerCase().indexOf(address);
+                        endIndex = startIndex + address.length();
+                        String targetText = petStreet.substring(startIndex, endIndex);
+                        String boldText = BOLD_START + targetText + BOLD_END;
+                        pet.getAddress().setStreet(petStreet.replaceAll(targetText, boldText));
+                    } else {
+                        startIndex = petCity.toLowerCase().indexOf(address);
+                        endIndex = startIndex + address.length();
+                        String targetText = petCity.substring(startIndex, endIndex);
+                        String boldText = BOLD_START + targetText + BOLD_END;
+                        pet.getAddress().setCity(petCity.replaceAll(targetText, boldText));
+                    }
+                    return pet;
+                })
                 .toList();
     }
 
