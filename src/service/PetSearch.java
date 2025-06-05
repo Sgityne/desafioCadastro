@@ -1,5 +1,6 @@
 package service;
 
+import cli.Menu;
 import model.Pet;
 import model.PetAddress;
 import repository.PetFile;
@@ -28,15 +29,7 @@ public class PetSearch {
 
     public static void listAllPets() {
         List<Pet> pets = getPetFiles();
-        printPets(pets);
-    }
-
-    private static void printPets(List<Pet> pets) {
-        int c = 1;
-        for (Pet pet : pets) {
-            System.out.println(c + ". " + pet.print());
-            c++;
-        }
+        Menu.printPets(pets);
     }
 
     private static Pet parsePetFromLines(List<String> lines) {
@@ -58,13 +51,5 @@ public class PetSearch {
         pet.setAddress(petAddress);
 
         return pet;
-    }
-
-    public static void listPetsByCriteria(int petSpecie, int[] criteria) {
-        List<Pet> petFilteredList = PetSearchFilter.Filter(petSpecie, criteria);
-        if (petFilteredList.isEmpty()) {
-            System.out.println("Nenhum pet encontrado");
-        }
-        printPets(petFilteredList);
     }
 }

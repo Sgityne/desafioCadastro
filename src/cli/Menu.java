@@ -1,10 +1,13 @@
 package cli;
 
+import model.Pet;
 import service.PetRegister;
 import service.PetSearch;
+import service.PetSearchFilter;
 import util.PetValidator;
 import util.Validators;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -71,20 +74,34 @@ public class Menu {
         do {
             System.out.println("Escolha o critério de busca: ");
             System.out.print(SEARCH_MENU);
-            criteria[c] = Validators.menuNumberFilter(scanner);
+            criteria[c] = Validators.menuNumberFilter(scanner, 8);
             if (criteria[1] != 0) {
                 break;
             }
             String choice = " ";
             while (!(choice.charAt(0) == 'n' || choice.charAt(0) == 's')) {
                 System.out.print("Deseja escolher um 2º critérios (Sim ou Não)?\n>> ");
-                choice = scanner.next().toLowerCase();
+                choice = scanner.nextLine().toLowerCase();
             }
             if (choice.charAt(0) == 'n') {
                 break;
             }
             c++;
         } while (true);
-        PetSearch.listPetsByCriteria(petSpecie, criteria);
+        List<Pet> petList = PetSearchFilter.Filter(petSpecie, criteria);
+        if (petList.isEmpty()) {
+            System.out.println("Nenhum pet encontrado.");
+            return;
+        }
+        printPets(petList);
+    }
+
+    public static void printPets(List<Pet> pets) {
+        int c = 1;
+        for (Pet pet : pets) {
+            System.out.println(c + ". " + pet.print());
+            c++;
+        }
     }
 }
+
