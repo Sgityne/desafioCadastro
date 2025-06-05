@@ -1,20 +1,16 @@
 package service;
 
-import cli.Menu;
 import model.Pet;
 import model.PetAddress;
 import repository.PetFile;
-import util.PetValidator;
-import util.Validators;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class PetSearch {
-    static List<Pet> getPetFiles(){
+    static List<Pet> getPetFiles() {
         try {
             List<Path> paths = PetFile.listAllFiles();
             List<Pet> pets = new ArrayList<>();
@@ -35,7 +31,7 @@ public class PetSearch {
         printPets(pets);
     }
 
-    private static void printPets (List<Pet> pets) {
+    private static void printPets(List<Pet> pets) {
         int c = 1;
         for (Pet pet : pets) {
             System.out.println(c + ". " + pet.print());
