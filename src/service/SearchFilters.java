@@ -38,7 +38,7 @@ public class SearchFilters {
     public static List<Pet> filterByAge(Scanner scanner, List<Pet> petList) {
         String age = Validators.isAValidNumber(scanner);
         return petList.stream()
-                .filter(pet -> pet.getAge().contains(age))
+                .filter(pet -> pet.getAge().equals(age))
                 .toList();
     }
 
