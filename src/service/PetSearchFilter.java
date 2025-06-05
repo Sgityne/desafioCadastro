@@ -48,16 +48,16 @@ public class PetSearchFilter {
         }
         if (criteria[0] == 7 || criteria[1] == 7) {
             int[][] date = new int[2][2];
-            System.out.print("Digite a data (mês/ano):\n>> ");
+            System.out.println("Digite a data (mês/ano):");
             date[0] = Validators.isAValidDate(scanner);
             date[1] = date[0];
             return SearchFilters.filterByData(date, petList);
         }
         if (criteria[0] == 8 || criteria[1] == 8) {
             int[][] dates = new int[2][2];
-            System.out.print("Digite a data inicial (mês/ano):\n>> ");
+            System.out.println("Digite a data inicial (mês/ano):");
             dates[0] = Validators.isAValidDate(scanner);
-            System.out.print("Digite a data final (mês/ano):\n>> ");
+            System.out.println("Digite a data final (mês/ano):");
             dates[1] = Validators.isAValidDate(scanner);
             return SearchFilters.filterByData(dates, petList);
         }

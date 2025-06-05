@@ -3,18 +3,18 @@ package util;
 import java.util.Scanner;
 
 public class Validators {
-    public static int menuNumberFilter(Scanner scanner) {
+    public static int menuNumberFilter(Scanner scanner, int maxSize) {
         System.out.print(">> ");
         try {
             int num = Integer.parseInt(scanner.nextLine());
-            if (num > 0 && num <= 8) {
+            if (num > 0 && num <= maxSize) {
                 return num;
             } else {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Número inválido. Digite outro número.");
-            return menuNumberFilter(scanner);
+            return menuNumberFilter(scanner, maxSize);
         }
     }
 
@@ -46,6 +46,7 @@ public class Validators {
     }
 
     public static int[] isAValidDate(Scanner scanner) {
+        System.out.print(">> ");
         try {
             String date = isNotBlank(scanner).trim();
             if (!date.contains("/")) {
@@ -61,7 +62,7 @@ public class Validators {
             }
 
             int year = Integer.parseInt(date.split("/")[1]);
-            if (year < 0) {
+            if (year < 1000) {
                 throw new IllegalArgumentException("Ano Inválido");
             }
             return new int[] {month, year};
