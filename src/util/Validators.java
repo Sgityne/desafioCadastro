@@ -3,6 +3,21 @@ package util;
 import java.util.Scanner;
 
 public class Validators {
+    public static int menuNumberFilter(Scanner scanner) {
+        System.out.print(">> ");
+        try {
+            int num = Integer.parseInt(scanner.nextLine());
+            if (num > 0 && num <= 8) {
+                return num;
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Número inválido. Digite outro número.");
+            return menuNumberFilter(scanner);
+        }
+    }
+
     public static String isNotBlank(Scanner scanner) {
         try {
             String string = scanner.nextLine().toLowerCase();

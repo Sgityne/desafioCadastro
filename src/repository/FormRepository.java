@@ -5,10 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static util.Constants.FORM_PATH;
+
 public class FormRepository {
-    final static Path FORMPATH = Paths.get("data\\formulario.txt");
-    static Path filePath = FORMPATH.toAbsolutePath();
-    final static String FORMTEXT = """
+    private static final Path FILE_PATH = Paths.get(FORM_PATH).toAbsolutePath();
+    final static String FORM_TEXT = """
             1 - Qual o nome e sobrenome do pet?
             2 - Qual o tipo do pet (Cachorro/Gato)?
             3 - Qual o sexo do animal?
@@ -18,16 +19,16 @@ public class FormRepository {
             7 - Qual a raça do pet?""";
 
     public static void createFile() {
-        if (Files.notExists(filePath)) {
+        if (Files.notExists(FILE_PATH)) {
             try {
-                Files.createFile(filePath);
+                Files.createFile(FILE_PATH);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        try (FileWriter fw = new FileWriter(filePath.toString());
+        try (FileWriter fw = new FileWriter(FILE_PATH.toString());
              BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write(FORMTEXT);
+            bw.write(FORM_TEXT);
             bw.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -35,7 +36,7 @@ public class FormRepository {
     }
 
     public static void readFile() {
-        try (FileReader fr = new FileReader(filePath.toFile());
+        try (FileReader fr = new FileReader(FILE_PATH.toFile());
              BufferedReader br = new BufferedReader(fr)) {
             String line;
             while((line = br.readLine()) != null) {
@@ -47,7 +48,7 @@ public class FormRepository {
     }
 
     public static void readFileLine(int line) {
-        try (FileReader fr = new FileReader(filePath.toFile());
+        try (FileReader fr = new FileReader(FILE_PATH.toFile());
              BufferedReader br = new BufferedReader(fr)) {
             String lines;
             while((lines = br.readLine()) != null) {

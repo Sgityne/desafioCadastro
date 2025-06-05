@@ -3,6 +3,7 @@ package service;
 import model.Pet;
 import model.PetGender;
 import repository.PetFile;
+import util.PetValidator;
 import util.Validators;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static util.Constants.FORMATTER;
 
 public class SearchFilters {
     public static List<Pet> filterByName(Scanner scanner, List<Pet> petList) {
@@ -79,7 +82,7 @@ public class SearchFilters {
             List<Path> paths = PetFile.listAllFiles();
             for (Path path : paths) {
                 String[] fileNameParts = path.getFileName().toString().split("-");
-                LocalDate fileDate = LocalDate.parse(fileNameParts[0], PetFile.FORMATTER);
+                LocalDate fileDate = LocalDate.parse(fileNameParts[0], FORMATTER);
                 if (!fileDate.isBefore(initialDate) && !fileDate.isAfter(finalDate)) {
                     String rawName = fileNameParts[1].split("\\W")[0];
                     for (Pet pet : petList) {

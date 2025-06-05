@@ -4,6 +4,7 @@ import model.Pet;
 import model.PetAddress;
 import repository.FormRepository;
 import repository.PetFile;
+import util.PetValidator;
 
 import java.util.Scanner;
 

@@ -1,8 +1,11 @@
 package service;
 
+import cli.Menu;
 import model.Pet;
 import model.PetAddress;
 import repository.PetFile;
+import util.PetValidator;
+import util.Validators;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -61,26 +64,7 @@ public class PetSearch {
         return pet;
     }
 
-    public static void listPetsByCriteria() {
-        Scanner scanner = new Scanner(System.in);
-        int[] criteria = new int[2];
-        int c = 0;
-        System.out.println("Escolha a espécie que deseja procurar:");
-        int petSpecie = PetValidator.validatePetSpecie(scanner);
-        do {
-            System.out.println("Escolha o critério de busca: ");
-            System.out.print(Menu.SEARCHMENU);
-            criteria[c] = Menu.numberFiler(scanner);
-            if (criteria[1] != 0) {
-                break;
-            }
-            System.out.print("Deseja escolher um 2º critérios (Sim ou Não)?\n>> ");
-            String choice = scanner.next().toLowerCase();
-            if (choice.charAt(0) == 'n') {
-                break;
-            }
-            c++;
-        } while (true);
+    public static void listPetsByCriteria(int petSpecie, int[] criteria) {
         List<Pet> petFilteredList = PetSearchFilter.Filter(petSpecie, criteria);
         printPets(petFilteredList);
     }

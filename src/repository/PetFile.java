@@ -7,26 +7,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static util.Constants.FORMATTER;
+import static util.Constants.PET_FOLDER_PATH;
+
 public class PetFile {
-    final static Path PETFOLDERPATH = Paths.get("data\\petsCadastrados");
-    static Path folderPath = PETFOLDERPATH.toAbsolutePath();
-    public final static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
+    private static final Path FOLDER_PATH = Paths.get(PET_FOLDER_PATH).toAbsolutePath();
 
     public static void save(Pet pet) {
-        if (Files.notExists(folderPath)) {
+        if (Files.notExists(FOLDER_PATH)) {
             try {
-                Files.createDirectory(folderPath);
+                Files.createDirectory(FOLDER_PATH);
             } catch (IOException e) {
                 System.out.println("Erro ao criar o diretório");
             }
         }
         String dateTime = LocalDateTime.now().format(FORMATTER);
-        Path filePath = Paths.get(folderPath.toString(),
+        Path filePath = Paths.get(FOLDER_PATH.toString(),
                 dateTime + "-" + pet.getName().replaceAll("\\s", "").toUpperCase() + ".txt");
         if (Files.notExists(filePath)) {
             try {
@@ -51,10 +51,10 @@ public class PetFile {
     }
 
     public static List<Path> listAllFiles() throws IOException {
-        if (Files.notExists(folderPath)) {
+        if (Files.notExists(FOLDER_PATH)) {
             throw new IOException("Diretório não encontrado");
         }
-        try (Stream<Path> paths = Files.list(folderPath)) {
+        try (Stream<Path> paths = Files.list(FOLDER_PATH)) {
             List<Path> filePaths = paths
                     .filter(Files::isRegularFile)
                     .toList();

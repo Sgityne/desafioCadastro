@@ -1,11 +1,10 @@
-package service;
+package util;
 
 import java.util.Scanner;
 
+import static util.Constants.NAO_INFORMADO;
+
 public class PetValidator {
-
-    private static final String NAO_INFORMADO = "não informado";
-
     public static String validatePetName(Scanner scanner) {
         System.out.print(">> ");
         String name = scanner.nextLine();

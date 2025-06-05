@@ -1,9 +1,14 @@
-package service;
+package cli;
+
+import service.PetRegister;
+import service.PetSearch;
+import util.PetValidator;
+import util.Validators;
 
 import java.util.Scanner;
 
 public class Menu {
-    final static String MENUOPTIONS = """
+    private final static String MENU_OPTIONS = """
             
             1 - Cadastrar um novo pet
             2 - Alterar os dados do pet cadastrado
@@ -13,7 +18,7 @@ public class Menu {
             6 - Sair\n""" +
             ">> ";
 
-    final static String SEARCHMENU = """
+    private final static String SEARCH_MENU = """
             1 - Nome ou sobrenome
             2 - Sexo
             3 - Idade
@@ -27,7 +32,7 @@ public class Menu {
     public static void mainMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.print(MENUOPTIONS);
+            System.out.print(MENU_OPTIONS);
             try {
                 int option = Integer.parseInt(scanner.nextLine());
                 switch (option) {
@@ -42,7 +47,7 @@ public class Menu {
                         PetSearch.listAllPets();
                         continue;
                     case 5:
-                        PetSearch.listPetsByCriteria();
+                        searchMenu();
                         continue;
                     case 6:
                         scanner.close();
@@ -57,18 +62,26 @@ public class Menu {
         }
     }
 
-    public static int numberFiler(Scanner scanner) {
-        System.out.print(">> ");
-        try {
-            int num = Integer.parseInt(scanner.nextLine());
-            if (num > 0 && num <= 8) {
-                return num;
-            } else {
-                throw new IllegalArgumentException();
+    public static void searchMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int[] criteria = new int[2];
+        int c = 0;
+        System.out.println("Escolha a espécie que deseja procurar:");
+        int petSpecie = PetValidator.validatePetSpecie(scanner);
+        do {
+            System.out.println("Escolha o critério de busca: ");
+            System.out.print(SEARCH_MENU);
+            criteria[c] = Validators.menuNumberFilter(scanner);
+            if (criteria[1] != 0) {
+                break;
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Número inválido. Digite outro número.");
-            return numberFiler(scanner);
-        }
+            System.out.print("Deseja escolher um 2º critérios (Sim ou Não)?\n>> ");
+            String choice = scanner.next().toLowerCase();
+            if (choice.charAt(0) == 'n') {
+                break;
+            }
+            c++;
+        } while (true);
+        PetSearch.listPetsByCriteria(petSpecie, criteria);
     }
 }
