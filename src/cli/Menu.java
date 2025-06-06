@@ -1,12 +1,14 @@
 package cli;
 
 import model.Pet;
+import service.PetEditor;
 import service.PetRegister;
 import service.PetSearch;
 import service.PetSearchFilter;
 import util.PetValidator;
 import util.Validators;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,14 +45,15 @@ public class Menu {
                         PetRegister.register();
                         continue;
                     case 2:
-
+                        searchMenu(2);
+                        continue;
                     case 3:
 
                     case 4:
                         PetSearch.listAllPets();
                         continue;
                     case 5:
-                        searchMenu();
+                        searchMenu(1);
                         continue;
                     case 6:
                         scanner.close();
@@ -65,7 +68,7 @@ public class Menu {
         }
     }
 
-    public static void searchMenu() {
+    public static void searchMenu(int option) {
         Scanner scanner = new Scanner(System.in);
         int[] criteria = new int[2];
         int c = 0;
@@ -88,12 +91,19 @@ public class Menu {
             }
             c++;
         } while (true);
-        List<Pet> petList = PetSearchFilter.Filter(petSpecie, criteria);
+        List<Pet> petList = new ArrayList<>(PetSearchFilter.Filter(petSpecie, criteria));
         if (petList.isEmpty()) {
             System.out.println("Nenhum pet encontrado.");
             return;
         }
-        printPets(petList);
+        if (option == 1) {
+            printPets(petList);
+        } if (option == 2) {
+            System.out.println("Digite o número do pet que deseja alterar:");
+            printPets(petList);
+            int chosenPet = Validators.menuNumberFilter(scanner, petList.size());
+            PetEditor.editPet(petList.remove(chosenPet - 1));
+        }
     }
 
     public static void printPets(List<Pet> pets) {
@@ -104,4 +114,3 @@ public class Menu {
         }
     }
 }
-
