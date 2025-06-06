@@ -17,7 +17,7 @@ import static util.Constants.PET_FOLDER_PATH;
 public class PetFile {
     private static final Path FOLDER_PATH = Paths.get(PET_FOLDER_PATH).toAbsolutePath();
 
-    public static void save(Pet pet) {
+    public static Path createFile(Pet pet) {
         if (Files.notExists(FOLDER_PATH)) {
             try {
                 Files.createDirectory(FOLDER_PATH);
@@ -26,8 +26,11 @@ public class PetFile {
             }
         }
         String dateTime = LocalDateTime.now().format(FORMATTER);
-        Path filePath = Paths.get(FOLDER_PATH.toString(),
+        return  Paths.get(FOLDER_PATH.toString(),
                 dateTime + "-" + pet.getName().replaceAll("\\s", "").toUpperCase() + ".txt");
+    }
+
+    public static void save(Pet pet, Path filePath) {
         if (Files.notExists(filePath)) {
             try {
                 Files.createFile(filePath);

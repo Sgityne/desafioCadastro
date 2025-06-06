@@ -41,6 +41,6 @@ public class PetRegister {
         FormRepository.readFileLine(7);
         pet.setBreed(PetValidator.validatePetBreed(scanner));
 
-        PetFile.save(pet);
+        PetFile.save(pet, PetFile.createFile(pet));
     }
 }
