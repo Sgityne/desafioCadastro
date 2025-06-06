@@ -33,6 +33,14 @@ public class Menu {
             7 - Data específica
             8 - Intervalo de datas
             """;
+    private final static String REDUCED_SEARCH_MENU = """
+                    Escolha o campo que deseja alterar:
+                    1 - Nome ou sobrenome
+                    2 - Idade
+                    3 - Peso
+                    4 - Raça
+                    5 - Endereço
+                    6 - Salvar Alterações""";
 
     public static void mainMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -104,6 +112,12 @@ public class Menu {
             int chosenPet = Validators.menuNumberFilter(scanner, petList.size());
             PetEditor.editPet(petList.remove(chosenPet - 1));
         }
+    }
+
+    public static int criteriaMenu() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(REDUCED_SEARCH_MENU);
+        return Validators.menuNumberFilter(scanner, 6);
     }
 
     public static void printPets(List<Pet> pets) {

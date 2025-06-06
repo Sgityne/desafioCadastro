@@ -1,9 +1,9 @@
 package service;
 
+import cli.Menu;
 import model.Pet;
 import repository.FormRepository;
 import repository.PetFile;
-import util.Constants;
 import util.PetValidator;
 import util.Validators;
 
@@ -16,15 +16,7 @@ public class PetEditor {
         Scanner scanner = new Scanner(System.in);
         pet.setName(pet.getName().replaceAll("\u001B\\[1m", "").replaceAll("\u001B\\[0m", ""));
         while (true) {
-            System.out.println("""
-                    Escolha o campo que deseja alterar:
-                    1 - Nome ou sobrenome
-                    2 - Idade
-                    3 - Peso
-                    4 - Raça
-                    5 - Endereço
-                    6 - Salvar Alterações""");
-            int option = Validators.menuNumberFilter(scanner, 6);
+            int option = Menu.criteriaMenu();
             switch (option) {
                 case 1:
                     FormRepository.readFileLine(1);
