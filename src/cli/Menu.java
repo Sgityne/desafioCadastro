@@ -33,14 +33,14 @@ public class Menu {
             7 - Data específica
             8 - Intervalo de datas
             """;
-    private final static String REDUCED_SEARCH_MENU = """
-                    Escolha o campo que deseja alterar:
-                    1 - Nome ou sobrenome
-                    2 - Idade
-                    3 - Peso
-                    4 - Raça
-                    5 - Endereço
-                    6 - Salvar Alterações""";
+    private final static String EDIT_MENU = """
+            Escolha o campo que deseja alterar:
+            1 - Nome ou sobrenome
+            2 - Idade
+            3 - Peso
+            4 - Raça
+            5 - Endereço
+            6 - Salvar Alterações""";
 
     public static void mainMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -53,7 +53,7 @@ public class Menu {
                         PetRegister.register();
                         continue;
                     case 2:
-                        searchMenu(2);
+                        editMenu();
                         continue;
                     case 3:
 
@@ -61,7 +61,7 @@ public class Menu {
                         PetSearch.listAllPets();
                         continue;
                     case 5:
-                        searchMenu(1);
+                        printPets(searchMenu());
                         continue;
                     case 6:
                         scanner.close();
@@ -76,7 +76,7 @@ public class Menu {
         }
     }
 
-    public static void searchMenu(int option) {
+    public static List<Pet> searchMenu() {
         Scanner scanner = new Scanner(System.in);
         int[] criteria = new int[2];
         int c = 0;
@@ -99,28 +99,29 @@ public class Menu {
             }
             c++;
         } while (true);
-        List<Pet> petList = new ArrayList<>(PetSearchFilter.Filter(petSpecie, criteria));
-        if (petList.isEmpty()) {
-            System.out.println("Nenhum pet encontrado.");
-            return;
-        }
-        if (option == 1) {
-            printPets(petList);
-        } if (option == 2) {
-            System.out.println("Digite o número do pet que deseja alterar:");
-            printPets(petList);
-            int chosenPet = Validators.menuNumberFilter(scanner, petList.size());
-            PetEditor.editPet(petList.remove(chosenPet - 1));
-        }
+        return new ArrayList<>(PetSearchFilter.Filter(petSpecie, criteria));
     }
 
-    public static int criteriaMenu() {
+    public static void editMenu() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(REDUCED_SEARCH_MENU);
+        List<Pet> petList = searchMenu();
+        System.out.println("Digite o número do pet que deseja alterar:");
+        printPets(petList);
+        int chosenPet = Validators.menuNumberFilter(scanner, petList.size());
+        PetEditor.editPet(petList.remove(chosenPet - 1));
+    }
+
+    public static int editCriteriaMenu() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(EDIT_MENU);
         return Validators.menuNumberFilter(scanner, 6);
     }
 
     public static void printPets(List<Pet> pets) {
+        if (pets.isEmpty()) {
+            System.out.println("Nenhum pet encontrado.");
+            return;
+        }
         int c = 1;
         for (Pet pet : pets) {
             System.out.println(c + ". " + pet.print());

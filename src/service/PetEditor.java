@@ -5,7 +5,6 @@ import model.Pet;
 import repository.FormRepository;
 import repository.PetFile;
 import util.PetValidator;
-import util.Validators;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -16,7 +15,7 @@ public class PetEditor {
         Scanner scanner = new Scanner(System.in);
         pet.setName(pet.getName().replaceAll("\u001B\\[1m", "").replaceAll("\u001B\\[0m", ""));
         while (true) {
-            int option = Menu.criteriaMenu();
+            int option = Menu.editCriteriaMenu();
             switch (option) {
                 case 1:
                     FormRepository.readFileLine(1);
