@@ -1,10 +1,8 @@
 package cli;
 
 import model.Pet;
-import service.PetEditor;
-import service.PetRegister;
-import service.PetSearch;
-import service.PetSearchFilter;
+import repository.PetFile;
+import service.*;
 import util.PetValidator;
 import util.Validators;
 
@@ -56,7 +54,8 @@ public class Menu {
                         editMenu();
                         continue;
                     case 3:
-
+                        deleteMenu();
+                        continue;
                     case 4:
                         PetSearch.listAllPets();
                         continue;
@@ -99,16 +98,36 @@ public class Menu {
             }
             c++;
         } while (true);
-        return new ArrayList<>(PetSearchFilter.Filter(petSpecie, criteria));
+        List<Pet> petList = new ArrayList<>(PetSearchFilter.Filter(petSpecie, criteria));
+        if (petList.isEmpty()) {
+            System.out.println("Nenhum pet encontrado.");
+            return List.of();
+        }
+        return petList;
     }
 
     public static void editMenu() {
         Scanner scanner = new Scanner(System.in);
         List<Pet> petList = searchMenu();
+        if (petList.isEmpty()) {
+            return;
+        }
         System.out.println("Digite o número do pet que deseja alterar:");
         printPets(petList);
         int chosenPet = Validators.menuNumberFilter(scanner, petList.size());
         PetEditor.editPet(petList.remove(chosenPet - 1));
+    }
+
+    public static void deleteMenu() {
+        Scanner scanner = new Scanner(System.in);
+        List<Pet> petList = searchMenu();
+        if (petList.isEmpty()) {
+            return;
+        }
+        System.out.println("Digite o número do pet que deseja deletar:");
+        printPets(petList);
+        int chosenPet = Validators.menuNumberFilter(scanner, petList.size());
+        PetDelete.delete(petList.remove(chosenPet - 1));
     }
 
     public static int editCriteriaMenu() {
@@ -118,10 +137,6 @@ public class Menu {
     }
 
     public static void printPets(List<Pet> pets) {
-        if (pets.isEmpty()) {
-            System.out.println("Nenhum pet encontrado.");
-            return;
-        }
         int c = 1;
         for (Pet pet : pets) {
             System.out.println(c + ". " + pet.print());

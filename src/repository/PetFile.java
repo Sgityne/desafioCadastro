@@ -1,6 +1,7 @@
 package repository;
 
 import model.Pet;
+import service.FileFinder;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -72,6 +73,17 @@ public class PetFile {
     public static List<String> readFileLines(Path path) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
             return reader.lines().collect(Collectors.toList());
+        }
+    }
+
+    public static boolean delete(Pet pet) {
+        try {
+            Path filePath = FileFinder.parseFileName(listAllFiles(), pet.getName());
+            Files.delete(filePath);
+            return true;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 }
